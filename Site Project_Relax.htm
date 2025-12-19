@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Project Relax</title>
+    <link rel="icon" type="image/x-icon" href="Project Relax.ico">
+    <style>
+        body {
+            background: url('C3S3_Black&White.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding-top: 20px;
+            position: relative;
+            min-height: 80vh;
+        }
+        img {
+            width: 70%;
+            max-width: 300px;
+            margin-bottom: 20px;
+        }
+        .button {
+            background-color: #252c70;
+            color: white;
+            padding: 15px 30px;
+            font-size: 18px;
+            margin: 10px auto;
+            cursor: pointer;
+            display: block;
+            width: 200px;
+            border-radius: 50px;
+        }
+        .hidden-text {
+            display: none;
+            font-size: 14px;
+            margin-top: 10px;
+            background-color: #2d10a9;
+            color: white;
+            width: 125px;
+            border-radius: 50px;
+            padding: 5px 0px;
+            margin-inline: auto;
+            margin-bottom: 4px;
+        }
+        .bottom-btn {
+            position: absolute;
+            bottom: 0,1%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+    </style>
+</head>
+<body>
+
+    <img src="Project_Relax_Logo_rounded.png" alt="Project Relax Logo">
+    
+    <button class="button" onclick="window.location.href='https://github.com/3PA5/Project-Relax-Launcher/releases/tag/Latest'">Project Relax Launcher</button>
+    <p class="hidden-text" id="coming-soon">Coming Soon !</p>
+    
+    <button class="button bottom-btn" onclick="window.location.href='https://public.simplyblk.xyz/21.10.zip'">Fortnite 21.10</button>
+    
+    <script>
+        function showText() {
+            document.getElementById("coming-soon").style.display = "block";
+        }
+    </script>
+
+</body>
+</html>
