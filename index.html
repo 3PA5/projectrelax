@@ -50,10 +50,32 @@
             left: 50%;
             transform: translateX(-50%);
         }
+
+        .discord-link {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+        .discord-icon {
+            width: 60px;
+            height: auto;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .discord-icon:hover {
+            transform: scale(1.1);
+        }
+
     </style>
 </head>
 <body>
 
+<a href="https://discord.gg/WnJD8F7T5V" target="_blank" class="discord-link">
+    <img src="discord.png" alt="Discord" class="discord-icon">
+</a>
+    
     <img src="Project_Relax_Logo_rounded.png" alt="Project Relax Logo">
     
     <button class="button" onclick="window.location.href='https://github.com/3PA5/Project-Relax-Launcher/releases/tag/Latest'">Project Relax Launcher</button>
@@ -69,3 +91,4 @@
 
 </body>
 </html>
+
