@@ -149,15 +149,15 @@
     </script>
  
     <div id="log-box"> 
-        <h3>Logs GitHub</h3> 
-        <pre id="recent-logs">Chargement...</pre> 
-        <button id="show-old-logs">Voir plus</button> 
+        <h3>Github Logs</h3> 
+        <pre id="recent-logs">Loading...</pre> 
+        <button id="show-old-logs">See more</button> 
     </div> 
     <div id="log-popup"> 
         <div id="log-popup-content"> 
-            <h2>Logs complètes</h2> 
-            <pre id="all-logs">Chargement...</pre> 
-            <button id="close-popup">Fermer</button> 
+            <h2>All logs</h2> 
+            <pre id="all-logs">Loading...</pre> 
+            <button id="close-popup">Close</button> 
         </div> 
     </div> 
 <script>
@@ -180,7 +180,7 @@ async function loadLogs() {
                 });
             });
         } catch (e) {
-            console.error("Erreur API GitHub :", e);
+            console.error("Github API Error :", e);
         }
     }
 
@@ -232,3 +232,4 @@ document.getElementById("close-popup").onclick = () => {
 
 </body>
 </html>
+
