@@ -173,20 +173,14 @@
     <img src="discord2.png" alt="Discord" class="discord-icon">
 </a>
     
-    <img src="Project_Relax_Logo_rounded.png" alt="Project Relax Logo">
-    
-    <button class="button" onclick="window.location.href='https://github.com/3PA5/Project-Relax-Launcher/releases/tag/Latest'">Project Relax Launcher</button>
-    <p class="hidden-text" id="coming-soon">Coming Soon !</p>
-    
-    <button class="button bottom-btn" onclick="window.location.href='https://public.simplyblk.xyz/21.10.zip'">Fortnite 21.10</button>
-    
-    <script>
-        function showText() {
-            document.getElementById("coming-soon").style.display = "block";
-        }
-    </script>
- 
-   <div id="log-box">
+<img src="Project_Relax_Logo_rounded.png" alt="Project Relax Logo">
+
+<button class="button" onclick="window.location.href='https://github.com/3PA5/Project-Relax-Launcher/releases/tag/Latest'">Project Relax Launcher</button>
+<p class="hidden-text" id="coming-soon">Coming Soon !</p>
+
+<button class="button bottom-btn" onclick="window.location.href='https://public.simplyblk.xyz/21.10.zip'">Fortnite 21.10</button>
+
+<div id="log-box">
     <div class="log-cell" id="log1"></div>
     <div class="log-cell" id="log2"></div>
     <div class="log-cell" id="log3"></div>
@@ -194,14 +188,15 @@
 </div>
 
 <button id="openSeeMoreBtn" class="popup-open-btn"> See more </button>
-    
-    <div id="log-popup"> 
-        <div id="log-popup-content"> 
-            <h2>All logs</h2> 
-            <pre id="all-logs">Loading...</pre> 
-            <button id="close-popup">Close</button> 
-        </div> 
+
+<div id="log-popup"> 
+    <div id="log-popup-content"> 
+        <h2>All logs</h2> 
+        <pre id="all-logs">Loading...</pre> 
+        <button id="close-popup">Close</button> 
     </div> 
+</div> 
+
 <script>
 async function loadLogs() {
     const repos = ["projectrelax", "Project-Relax-Launcher"];
@@ -226,48 +221,9 @@ async function loadLogs() {
     }
 
     logs.sort((a, b) => new Date(b.date) - new Date(a.date));
+    window.allLogs = logs; // <-- IMPORTANT
 
     let finalLogs = logs.slice(0, 4);
-
-    if (finalLogs.length < 4) {
-        let extra = [];
-
-        for (const repo of repos) {
-            try {
-                const response = await fetch(`https://api.github.com/repos/3PA5/${repo}/commits`);
-                const data = await response.json();
-
-                data.forEach(commit => {
-                    extra.push({
-                        repo: repo,
-                        message: commit.commit.message,
-                        date: commit.commit.author.date,
-                        url: commit.html_url,
-                        avatar: commit.author ? commit.author.avatar_url : "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
-                    });
-                });
-
-            } catch (e) {}
-        }
-
-        extra.sort((a, b) => new Date(b.date) - new Date(a.date));
-
-        for (const log of extra) {
-            if (finalLogs.length >= 4) break;
-            const duplicate = finalLogs.some(l => l.message === log.message);
-            if (!duplicate) finalLogs.push(log);
-        }
-    }
-
-    while (finalLogs.length < 4) {
-        finalLogs.push({
-            repo: "None",
-            message: "No log available",
-            date: "",
-            url: "#",
-            avatar: "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
-        });
-    }
 
     finalLogs.forEach((log, i) => {
         const color =
@@ -283,19 +239,28 @@ async function loadLogs() {
         `;
     });
 
-document.getElementById("openSeeMoreBtn").addEventListener("click", () => {
-    openSeeMoreModal(window.allLogs);
-});
-
+    document.getElementById("openSeeMoreBtn").addEventListener("click", () => {
+        openSeeMoreModal(window.allLogs);
+    });
 }
+
+function openSeeMoreModal(logs) {
+    const modal = document.getElementById("log-popup");
+    const container = document.getElementById("all-logs");
+
+    container.textContent = logs
+        .map(log => `[${log.repo}] ${log.message} (${log.date})`)
+        .join("\n\n");
+
+    modal.style.display = "flex";
+}
+
+document.getElementById("close-popup").addEventListener("click", () => {
+    document.getElementById("log-popup").style.display = "none";
+});
 
 loadLogs();
 </script>
 
 </body>
 </html>
-
-
-
-
-
