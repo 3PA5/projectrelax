@@ -82,7 +82,7 @@
         
             display: grid;
             grid-template-columns: 1fr;
-            grid-template-rows: repeat(4, 1fr);
+            grid-template-rows: repeat(5, auto);
             gap: 8px;
         }
         
@@ -112,24 +112,13 @@
         }
 
         .popup-open-btn {
-            margin-top: 20px;
             padding: 10px;
             background: #e24a4a;
             border: none;
             color: white;
             border-radius: 5px;
             cursor: pointer;
-        }
-
-        #log-box button {
             width: 100%;
-            margin-top: 10px;
-            padding: 8px;
-            background: #4a90e2;
-            border: none;
-            color: white;
-            border-radius: 5px;
-            cursor: pointer;
         }
 
         #log-popup {
@@ -185,9 +174,10 @@
     <div class="log-cell" id="log2"></div>
     <div class="log-cell" id="log3"></div>
     <div class="log-cell" id="log4"></div>
-</div>
 
-<button id="openSeeMoreBtn" class="popup-open-btn"> See more </button>
+    <!-- ⭐ BOUTON SEE MORE DANS LE LOG-BOX ⭐ -->
+    <button id="openSeeMoreBtn" class="popup-open-btn">See more</button>
+</div>
 
 <div id="log-popup"> 
     <div id="log-popup-content"> 
@@ -221,7 +211,7 @@ async function loadLogs() {
     }
 
     logs.sort((a, b) => new Date(b.date) - new Date(a.date));
-    window.allLogs = logs; // <-- IMPORTANT
+    window.allLogs = logs; // <-- indispensable
 
     let finalLogs = logs.slice(0, 4);
 
