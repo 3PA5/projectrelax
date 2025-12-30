@@ -151,17 +151,18 @@
         }
 
         #close-popup {
-            position: absolute;
-            top: 15px;
-            right: 15px;
+            position: sticky;
+            top: 10px;
+            float: right;
             background: #e24a4a;
             border: none;
             color: white;
             padding: 8px 12px;
             border-radius: 6px;
             cursor: pointer;
-            z-index: 10;
+            z-index: 50;
         }
+
 
         #all-logs {
             margin-top: 40px;
@@ -221,7 +222,7 @@
 
 <div id="log-popup"> 
     <div id="log-popup-content"> 
-        <button id="close-popup">Close</button>
+        <button id="close-popup">X</button>
         <h2>All logs</h2> 
         <div id="all-logs">Loading...</div> 
     </div> 
@@ -303,3 +304,4 @@ loadLogs();
 
 </body>
 </html>
+
