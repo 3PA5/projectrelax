@@ -32,42 +32,8 @@
             width: 200px;
             border-radius: 50px;
         }
-        .hidden-text {
-            display: none;
-            font-size: 14px;
-            margin-top: 10px;
-            background-color: #2d10a9;
-            color: white;
-            width: 125px;
-            border-radius: 50px;
-            padding: 5px 0px;
-            margin-inline: auto;
-            margin-bottom: 4px;
-        }
-        .bottom-btn {
-            position: absolute;
-            bottom: 0,1%;
-            left: 50%;
-            transform: translateX(-50%);
-        }
 
-        .discord-link {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-        }
-
-        .discord-icon {
-            width: 200px;
-            height: auto;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-
-        .discord-icon:hover {
-            transform: scale(1.1);
-        }
-
+        /* LOG BOX */
         #log-box {
             position: fixed;
             bottom: 20px;
@@ -96,31 +62,24 @@
             word-wrap: break-word;
             white-space: normal;
         }
-        
-        .log-avatar {
-            width: 22px;
-            height: 22px;
-            border-radius: 50%;
-            vertical-align: middle;
-            margin-right: 5px;
-        }
-        
-        .log-link {
-            color: #4aa3ff;
-            font-size: 11px;
-            text-decoration: none;
-        }
 
+        /* SEE MORE BUTTON */
         .popup-open-btn {
             padding: 10px;
-            background: #e24a4a;
+            background: rgba(20,20,20,0.8);
             border: none;
             color: white;
-            border-radius: 5px;
+            border-radius: 6px;
             cursor: pointer;
             width: 100%;
+            font-size: 14px;
         }
 
+        .popup-open-btn:hover {
+            background: rgba(40,40,40,0.9);
+        }
+
+        /* POPUP */
         #log-popup {
             display: none;
             position: fixed;
@@ -137,37 +96,50 @@
 
         #log-popup-content {
             width: 90%;
-            height: 90%;
+            height: 85%;
             background: rgba(20,20,20,0.9);
             padding: 20px;
-            border-radius: 10px;
+            border-radius: 20px;
             overflow-y: auto;
+            position: relative;
+            margin-bottom: 30px;
         }
 
-        #log-popup button {
-            margin-top: 20px;
-            padding: 10px;
+        /* CLOSE BUTTON FIXED TOP RIGHT */
+        #close-popup {
+            position: absolute;
+            top: 15px;
+            right: 15px;
             background: #e24a4a;
             border: none;
             color: white;
-            border-radius: 5px;
+            padding: 8px 12px;
+            border-radius: 6px;
             cursor: pointer;
+            z-index: 10;
         }
-        
+
+        /* LOG CARDS IN POPUP */
+        .popup-log-card {
+            background: rgba(255,255,255,0.08);
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 12px;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        .popup-log-card a {
+            color: #4aa3ff;
+            font-size: 12px;
+            text-decoration: none;
+        }
+
     </style>
 </head>
 <body>
 
-<a href="https://discord.gg/WnJD8F7T5V" target="_blank" class="discord-link">
-    <img src="discord2.png" alt="Discord" class="discord-icon">
-</a>
-    
 <img src="Project_Relax_Logo_rounded.png" alt="Project Relax Logo">
-
-<button class="button" onclick="window.location.href='https://github.com/3PA5/Project-Relax-Launcher/releases/tag/Latest'">Project Relax Launcher</button>
-<p class="hidden-text" id="coming-soon">Coming Soon !</p>
-
-<button class="button bottom-btn" onclick="window.location.href='https://public.simplyblk.xyz/21.10.zip'">Fortnite 21.10</button>
 
 <div id="log-box">
     <div class="log-cell" id="log1"></div>
@@ -175,15 +147,14 @@
     <div class="log-cell" id="log3"></div>
     <div class="log-cell" id="log4"></div>
 
-    <!-- ⭐ BOUTON SEE MORE DANS LE LOG-BOX ⭐ -->
     <button id="openSeeMoreBtn" class="popup-open-btn">See more</button>
 </div>
 
 <div id="log-popup"> 
     <div id="log-popup-content"> 
+        <button id="close-popup">Close</button>
         <h2>All logs</h2> 
-        <pre id="all-logs">Loading...</pre> 
-        <button id="close-popup">Close</button> 
+        <div id="all-logs"></div>
     </div> 
 </div> 
 
@@ -194,24 +165,24 @@ async function loadLogs() {
 
     for (const repo of repos) {
         try {
-            const response = await fetch(`https://api.github.com/repos/3PA5/${repo}/commits`);
+            const response = await fetch(`https://api.github.com/repos/3PA5/${repo}/commits?per_page=100`);
             const data = await response.json();
 
-            if (!Array.isArray(data) || data.length === 0) continue;
-
-            logs.push({
-                repo: repo,
-                message: data[0].commit.message,
-                date: data[0].commit.author.date,
-                url: data[0].html_url,
-                avatar: data[0].author ? data[0].author.avatar_url : "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+            data.forEach(commit => {
+                logs.push({
+                    repo: repo,
+                    message: commit.commit.message,
+                    date: commit.commit.author.date,
+                    url: commit.html_url,
+                    avatar: commit.author ? commit.author.avatar_url : "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+                });
             });
 
         } catch (e) {}
     }
 
     logs.sort((a, b) => new Date(b.date) - new Date(a.date));
-    window.allLogs = logs; // <-- indispensable
+    window.allLogs = logs;
 
     let finalLogs = logs.slice(0, 4);
 
@@ -238,9 +209,14 @@ function openSeeMoreModal(logs) {
     const modal = document.getElementById("log-popup");
     const container = document.getElementById("all-logs");
 
-    container.textContent = logs
-        .map(log => `[${log.repo}] ${log.message} (${log.date})`)
-        .join("\n\n");
+    container.innerHTML = logs.map(log => `
+        <div class="popup-log-card">
+            <strong>[${log.repo}]</strong><br>
+            ${log.message}<br>
+            <small>${log.date}</small><br>
+            <a href="${log.url}" target="_blank">View commit</a>
+        </div>
+    `).join("");
 
     modal.style.display = "flex";
 }
