@@ -111,6 +111,16 @@
             text-decoration: none;
         }
 
+        .popup-open-btn {
+            margin-top: 20px;
+            padding: 10px;
+            background: #e24a4a;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
         #log-box button {
             width: 100%;
             margin-top: 10px;
@@ -183,6 +193,8 @@
     <div class="log-cell" id="log4"></div>
 </div>
 
+<button id="openSeeMoreBtn" class="popup-open-btn"> See more </button>
+    
     <div id="log-popup"> 
         <div id="log-popup-content"> 
             <h2>All logs</h2> 
@@ -270,6 +282,11 @@ async function loadLogs() {
             <a href="${log.url}" target="_blank" class="log-link">View commit</a>
         `;
     });
+
+document.getElementById("openSeeMoreBtn").addEventListener("click", () => {
+    openSeeMoreModal(window.allLogs);
+});
+
 }
 
 loadLogs();
@@ -277,6 +294,7 @@ loadLogs();
 
 </body>
 </html>
+
 
 
 
